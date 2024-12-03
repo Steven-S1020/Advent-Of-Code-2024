@@ -2,7 +2,7 @@ def main() -> None:
     list1 = []
     list2 = []
 
-    with open('input.txt', 'r', encoding='utf8') as f:
+    with open('input.in', 'r', encoding='utf8') as f:
         for line in f:
             id1, id2 = map(int, line.split())
             list1.append(id1)
