@@ -1,5 +1,6 @@
 from collections import defaultdict
-from itertools import takewhile, dropwhile, permutations
+from itertools import takewhile, dropwhile
+from functools import cmp_to_key
 
 def main() -> None:
 
@@ -8,6 +9,8 @@ def main() -> None:
     rules = defaultdict(list)
 
     def valid_updates(update):
+        already_seen = []
+
         for num in update:
             if rules.get(num) == 'None':
                 already_seen.append(num)
@@ -18,6 +21,8 @@ def main() -> None:
             else:
                 return False
         return True
+
+
 
     with open('input.in', 'r', encoding='utf8') as f:
         lines = [line.strip() for line in f]
@@ -32,13 +37,11 @@ def main() -> None:
     updates = list(map(lambda x: list(map(int, x)), map(lambda x: x.split(','), (updates_temp))))
 
     for update in updates:
-        already_seen = []
-
-        if not valid_updates(update):
+        if valid_updates(update):
             sum_correct += update[len(update) // 2]
 
         else:
-
+            update.sort(key=cmp_to_key(lambda a, b: -1 if a in rules[b] else 1))
             sum_incorrect += update[len(update) // 2]
 
     print(sum_correct)
